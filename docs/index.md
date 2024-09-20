@@ -4,12 +4,14 @@ hide:
   - toc
 ---
 
-# GodotJS - JavaScript language binding for Godot game engine
+# **GodotJS**
+
+***-- JavaScript and TypeScript language binding for Godot game engine --***
 
 This module implements JavaScript/TypeScript language support for the Godot game engine using [QuickJS](https://bellard.org/quickjs/) as the JavaScript engine.
 
 
-### Getting started
+## Getting started
 
 Read the [getting-started](https://godotjs.github.io/documentation/getting-started/).
 
