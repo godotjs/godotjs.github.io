@@ -19,7 +19,7 @@ nav:
 theme:
   name: material
   favicon: assets/images/favicon.ico
- # logo: ./assets/logo.svg
+  logo: assets/images/godot-js.png
   icon:
     repo: fontawesome/brands/github
   features:
@@ -32,6 +32,29 @@ theme:
     - search.highlight
     - content.code.copy
     - content.tabs.link
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      primary: black
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: black
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
 
 markdown_extensions:
   - pymdownx.highlight:
