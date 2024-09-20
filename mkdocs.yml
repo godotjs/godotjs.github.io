@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
+site_name: GodotJS
+site_url: https://godotjs.github.io
+repo_url: https://github.com/Geequlim/ECMAScript
+site_description: JS/TS language binding for Godot
+
+nav:
+  - Home: index.md
+  - Docs:
+    - Getting Started: documentation/getting-started.md
+    - API: documentation/api.md
+    - TypeScript: documentation/typescript.md
+    - Gotchas: documentation/gotchas.md
+  - Examples:
+      - Load JSON in Singleton: examples/load-json-in-singleton.md
+      - Read file local: examples/read-file-local.md
+      - Use GDScript in JS or TS: examples/use-gdscript-in-js-or-ts.md
+
+theme:
+  name: material
+  favicon: assets/images/favicon.ico
+ # logo: ./assets/logo.svg
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - navigation.tabs
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.path
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.tabs.link
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
