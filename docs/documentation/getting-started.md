@@ -64,4 +64,4 @@ godot.register_property(MyClass, "number_value", {
 });
 ```
 
-For more detail on how to use it, [click here](https://github.com/Geequlim/ECMAScript/issues/24#issuecomment-655584829).
+For more detail on how to use it, [click here](https://github.com/godotjs/javascript/issues/24#issuecomment-655584829).

@@ -1,9 +1,10 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 site_name: GodotJS
 site_url: https://godotjs.github.io
-repo_url: https://github.com/Geequlim/ECMAScript
+repo_url: https://github.com/godotjs/javascript
 site_description: JS/TS language binding for Godot
-
+extra_css:
+  - css/extra.css
 nav:
   - Home: index.md
   - Docs:
