@@ -8,10 +8,14 @@ extra_css:
 nav:
   - Home: index.md
   - Docs:
-    - Getting Started: documentation/getting-started.md
-    - API: documentation/api.md
-    - TypeScript: documentation/typescript.md
-    - Gotchas: documentation/gotchas.md
+      - Getting Started: documentation/getting-started.md
+      - API: documentation/api.md
+      - TypeScript:
+          - Intro: documentation/typescript/intro.md
+          - GodotTS: documentation/typescript/godot-ts.md
+          - Decorators: documentation/typescript/decorators.md
+          - NPM Modules: documentation/typescript/npm-modules.md
+      - Gotchas: documentation/gotchas.md
   - Examples:
       - Load JSON in Singleton: examples/load-json-in-singleton.md
       - Read file local: examples/read-file-local.md
