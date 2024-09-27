@@ -1,25 +1,33 @@
-### How to export script class to Godot
+[Download the editor](https://github.com/godotjs/javascript/releases) and start the application
+
+Recommended for TypeScript:
+
+- Rename the downloaded file to `godot` and [add Godot to your path](https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html#path)
+- Open a terminal
+- Test if you can use Godot via terminal and run `godot --version`
+
+## How to export script class to Godot
 
 1. Define your JavaScript class and inherit from a Godot class, then export it as the **default** entry:
 
 ```javascript title="my-sprite.mjs"
 // The default export entry is treated as an exported class to Godot
 export default class MySprite extends godot.Sprite {
-	// this is _init() in GDScript
-	constructor() {
-		super();
-	}
+  // this is _init() in GDScript
+  constructor() {
+    super();
+  }
 
-	_ready() {}
+  _ready() {}
 
-	_process(delta) {}
+  _process(delta) {}
 }
 ```
 
 2. Save the script with extension `.mjs`
 3. Attach the script file to the node or resource object like you do with GDScript
 
-### How to export signals
+## How to export signals
 
 ```javascript title="my-sprite.mjs"
 export default class MySprite extends godot.Sprite {}
@@ -27,14 +35,14 @@ export default class MySprite extends godot.Sprite {}
 godot.register_signal(MySprite, "game_over");
 ```
 
-### How to export properties
+## How to export properties
 
 ```javascript title="my-sprite.mjs"
 export default class MySprite extends godot.Sprite {
-	_process(delta) {
-		// Yes! We can use operators in JavaScript like GDScript
-		this.position += this.direction * delta;
-	}
+  _process(delta) {
+    // Yes! We can use operators in JavaScript like GDScript
+    this.position += this.direction * delta;
+  }
 }
 // export 'direction' properties to MySprite Godot inspector
 godot.register_property(MySprite, "direction", new godot.Vector2(1, 0));
@@ -57,10 +65,10 @@ Is the simplified version of:
 
 ```js
 godot.register_property(MyClass, "number_value", {
-	type: godot.TYPE_REAL,
-	hint: godot.PropertyHint.PROPERTY_HINT_NONE,
-	hint_string: "",
-	default: 3.14,
+  type: godot.TYPE_REAL,
+  hint: godot.PropertyHint.PROPERTY_HINT_NONE,
+  hint_string: "",
+  default: 3.14,
 });
 ```
 
