@@ -2,9 +2,7 @@
 
 This example shows how to load a file like a `config` inside a singleton to access it everywhere.
 
-For the `TypeScript` examples, all `.ts` files will be compiled as `.mjs` to the folder `scripts/generated/**`.
-
-> **Note:** If you use `TypeScript` you need to set `"resolveJsonModule": true` inside your `tsconfig.json`.
+> **Note:** You need to set `"resolveJsonModule": true` inside your `tsconfig.json`.
 
 ## 1. Create file
 
@@ -20,60 +18,25 @@ Next we write this to the `test.json`:
 
 ## 2. Create the singleton
 
-We create a new file inside our `src` folder like `read-config.(mjs|ts)` and add this code to it:
+We create a new file inside our `scripts` folder like `read-config.ts` and add this code to it:
 
-=== "JavaScript"
+```ts title="read-config.ts"
+// @ts-ignore
+import { Node } from "godot";
+// @ts-ignore
+import TestJson from "res://config/test.json";
 
-    ```javascript title="read-config.mjs"
-    import TestJson from "res://config/test.json";
-
-    export default class ReadConfig extends godot.Node {
-      static _singleton;
-
-      static get singleton() {
-    	return ReadConfig._singleton;
-      }
-
-      constructor() {
-    	super();
-    	if (!ReadConfig._singleton) {
-    	  ReadConfig._singleton = this;
-    	}
-      }
-
-      // This property is available for other classes
-      config = TestJson;
-    }
-    ```
-
-=== "TypeScript"
-
-    ```ts title="read-config.ts"
-    // @ts-ignore
-    import TestJson from "res://config/test.json";
-
-    type TestType = {
-      test: boolean;
-    };
-
-    export default class ReadConfig extends godot.Node {
-      static _singleton: ReadConfig;
-
-      static get singleton() {
-    	return ReadConfig._singleton;
-      }
-
-      constructor() {
-    	super();
-    	if (!ReadConfig._singleton) {
-    	  ReadConfig._singleton = this;
-    	}
-      }
-
-      // This property is available for other classes
-      config: TestType = TestJson as TestType;
-    }
-    ```
+type TestType = {
+  test: boolean;
+};
+export default class ReadTest extends Node {
+  testType: TestType = TestJson as TestType;
+  logTestType() {
+    console.log(this.testType.test);
+    console.log(JSON.stringify(this.testType));
+  }
+}
+```
 
 ## 3. Autoload singleton in project
 
@@ -83,35 +46,24 @@ We need to update the `[autoload]` inside `project.godot`:
 ...
 [autoload]
 
-; Use the generated `.mjs` file instead of `.ts`
-ReadConfig="*res://scripts/generated/read-config.mjs"
+ReadTest="*res://examples/read-test/read-test.ts"
 ...
 ```
 
 ## 4. Use the singleton in other class
 
-In another class e.g. `main.(mjs|ts)` you need to import the `ReadConfig` then you can access every public property and method from `ReadConfig` via `ReadConfig.singleton`:
+In another class e.g. `main.ts` you need to import the `ReadConfig` then you
+can access every public property and method from `ReadConfig` via
+`this.get_node("/root/ReadTest")`:
 
-=== "JavaScript"
+```ts title="main.ts"
+import { Node } from "godot";
+import ReadTest from "./read-test";
 
-    ```ts title="main.mjs"
-    import ReadConfig from "./read-config";
-
-    export default class Main extends godot.Node {
-      _ready() {
-    	console.log(ReadConfig.singleton.config.test); // prints "true"
-      }
-    }
-    ```
-
-=== "TypeScript"
-
-    ```ts title="main.ts"
-    import ReadConfig from "./read-config";
-
-    export default class Main extends godot.Node {
-      _ready(): void {
-    	console.log(ReadConfig.singleton.config.test); // prints "true"
-      }
-    }
-    ```
+export default class Main extends Node {
+  onButtonPressed() {
+    const readTest: ReadTest = this.get_node("/root/ReadTest") as ReadTest;
+    readTest.logTestType();
+  }
+}
+```

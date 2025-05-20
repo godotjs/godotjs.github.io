@@ -6,54 +6,83 @@ hide:
 
 # **GodotJS**
 
-***-- JavaScript and TypeScript language binding for Godot game engine --***
+**_-- JavaScript and TypeScript language binding for Godot game engine --_**
 
-This module implements JavaScript/TypeScript language support for the Godot game engine using [QuickJS](https://bellard.org/quickjs/) as the JavaScript engine.
+Supports JavaScript engines:
 
+- V8
+- QuickJS
+- JavaScriptCore
+- Directly run scripts on the host browser JS VM when porting to web.
+
+![typescript_intellisence](images/typescript_intellisence.png)
+
+> **NOTE:** The core functionality is implemented and essentially usable but still under testing.
 
 ## Getting started
 
-Read the [getting-started](https://godotjs.github.io/documentation/getting-started/).
+Read the [getting-started](documentation/getting-started).
 
 ## Features
 
-- Almost complete ES2020 support
-- All Godot API available
-- Operator overriding for built-in types (Vector3, Color, etc)
-- TypeScript support
-- [Using third-party libraries from npm](https://github.com/GodotExplorer/ECMAScriptDemos/tree/master/npm_module)
-- Multi-thread support with Worker API
-- Full code completion support for all Godot APIs including signals and enumerations
-- Debug in Visual Studio Code with the [plugin](https://marketplace.visualstudio.com/items?itemName=geequlim.godot-javascript-debug) - currently not available for 4.x
+- Godot ScriptLanguage integration
+- Debug with Chrome/VSCode (with v8) and Safari (with JavaScriptCore)
+- REPL in Editor
+- Hot-reloading
+- Support for multiple javascript engines ([v8](https://github.com/v8/v8), [quickjs](https://github.com/bellard/quickjs), [quickjs-ng](https://github.com/quickjs-ng/quickjs), [JavaScriptCore](https://developer.apple.com/documentation/javascriptcore), the host Browser JS)
+- [Worker threads](documentation/experimental/worker.md) (limited support) (**experimental**)
+- Asynchronously loaded modules (limited support) (_temporarily only available in v8.impl, quickjs.impl_)
 
 ## Getting the engine
 
-No installation or setup necessary. The binaries for download are the complete, usable Godot editor and engine with JavaScript/TypeScript language support.
+No installation or setup necessary.
+The binaries for download are the complete, usable Godot editor
+and engine with JavaScript/TypeScript language support.
+
+> **NOTE:** The GodotJS-Build workflow is currently run manually, it may not be built from the latest version of GodotJS.
 
 ### Binary downloads
 
-Download the binaries from the [release page](https://github.com/GodotExplorer/ECMAScript/releases).
+Download the binaries from the [GodotJS-Build](https://github.com/ialex32x/GodotJS-Build/releases).
 
-### Compiling from source
+### Choose your engine
 
-- Clone the source code of [godot](https://github.com/godotengine/godot):
-  - `git clone git@github.com:godotengine/godot.git` or
-  - `git clone https://github.com/godotengine/godot.git`
-- This branch uses version `4.1` so checkout the version with: `git checkout 4.1`
-- Clone this module and put it into `godot/modules/javascript`:
-  - `git clone git@github.com:godotjs/javascript.git godot/modules/javascript` or
-  - `git clone https://github.com/godotjs/javascript.git godot/modules/javascript`
-- [Recompile the godot engine](https://docs.godotengine.org/en/4.1/development/compiling/index.html)
-  - Use `scons` with those additional options `warnings=extra werror=yes module_text_server_fb_enabled=yes` to show all potential errors:
-    - Windows: `scons platform=windows warnings=extra werror=yes module_text_server_fb_enabled=yes`
-    - MacOS: `scons platform=macos arch=arm64 warnings=extra werror=yes module_text_server_fb_enabled=yes`
+Before initiating, make sure to select the JavaScript runtime you prefer between `v8`, `QuickJS` and `Web` (See [Supported Platforms](#supported-platforms)):
 
-## Documentation, Tutorials & Demos
+- `v8` is proven to be one of the most powerful and high-performance JavaScript runtimes.
+- `QuickJS` is a remarkable and lightweight option.
+- `JavaScriptCore` is the built-in JavaScript engine for WebKit and bundled with macOS/iOS.
+- `Web` is only suitable when building for Web. All scripts run on the host browser JS VM rather than an additional interpreter.
 
+### Building from source
 
-Read this [documentation](https://godotjs.github.io/documentation/getting-started/) or look at the tutorials or demos:
+In some cases you want or need to build the engine from source.
+Read the [Building from Source](documentation/building-from-source/) documentation in this case.
 
-- [ECMAScriptDemos](https://github.com/Geequlim/ECMAScriptDemos) - Demos
-- [godot-ECMAScript-cookbook](https://github.com/why-try313/godot-ECMAScript-cookbook/wiki) - Tutorial
-- [godot-typescript-starter](https://github.com/citizenll/godot-typescript-starter) - Template
-- [godot-js-template](https://github.com/fukaraadam-workspace/godot-js-template) - Template
+## Examples
+
+For more information on how to use `GodotJS` in a project, check out [GodotJSExample](https://github.com/ialex32x/GodotJSExample.git) for examples written in typescript.
+
+![Example: Snake](images/snake_01.gif)
+![Example: Jummpy Bird](images/jumpybird.gif)
+
+## Supported Platforms
+
+|                | v8               | quickjs         | quickjs-ng      | Web Builtin JS      | JavaScriptCore  |
+| -------------- | ---------------- | --------------- | --------------- | ------------------- | --------------- |
+| Windows:x86_64 | ✅               | ✅              | ✅              | ❌                  | ❌              |
+| Windows:arm64  | ✅               | ✅              | ✅              | ❌                  | ❌              |
+| MacOS:x86_64   | ✅ (not tested)  | ✅ (not tested) | ✅ (not tested) | ❌                  | ✅ (not tested) |
+| MacOS:arm64    | ✅               | ✅              | ✅              | ❌                  | ✅ (debugging)  |
+| Linux:x86_64   | ✅ (not tested)  | ✅ (not tested) | ✅              | ❌                  | ❌              |
+| Linux:arm64    | ✅               | ✅              | ✅              | ❌                  | ❌              |
+| Android:x86_64 | ✅ (not tested)  | ✅ (not tested) | ✅ (not tested) | ❌                  | ❌              |
+| Android:arm64  | ✅               | ✅ (not tested) | ✅ (not tested) | ❌                  | ❌              |
+| iOS:x86_64     | ✅ (not tested)  | ✅ (not tested) | ✅ (not tested) | ❌                  | ✅ (not tested) |
+| iOS:arm64      | ✅ (not tested)  | ✅ (not tested) | ✅ (not tested) | ❌                  | ✅ (not tested) |
+| Web:wasm32     | ❌               | ✅ (not tested) | ✅ (not tested) | ✅ (debugging)      | ❌              |
+| Debugger       | ✅ Chrome/VSCode | ❌              | ❌              | ✅ browser devtools | ✅ Safari       |
+
+> Android: only tested on ndk_platform=android-24  
+> Web: only tested on emsdk-3.1.64  
+> JavaScriptCore: macOS 15, iOS 18 (support for lower versions may be implemented in future versions)

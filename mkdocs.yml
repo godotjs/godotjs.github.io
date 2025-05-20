@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 site_name: GodotJS
 site_url: https://godotjs.github.io
-repo_url: https://github.com/godotjs/javascript
+repo_url: https://github.com/godotjs/GodotJS
 site_description: JS/TS language binding for Godot
 extra_css:
   - css/extra.css
@@ -9,17 +9,41 @@ nav:
   - Home: index.md
   - Docs:
       - Getting Started: documentation/getting-started.md
-      - API: documentation/api.md
-      - TypeScript:
-          - Intro: documentation/typescript/intro.md
-          - GodotTS: documentation/typescript/godot-ts.md
-          - Decorators: documentation/typescript/decorators.md
-          - NPM Modules: documentation/typescript/npm-modules.md
-      - Gotchas: documentation/gotchas.md
+      - Use External Editor: documentation/use-external-editor.md
+      - Scripting:
+          - Intro: documentation/godot-js-scripts/intro.md
+          - Decorators: documentation/godot-js-scripts/decorators.md
+          - Signals: documentation/godot-js-scripts/signals.md
+          - NPM Dependencies: documentation/godot-js-scripts/npm-dependencies.md
+          - Cyclic Imports: documentation/godot-js-scripts/cyclic-imports.md
+          - Bindings: documentation/godot-js-scripts/bindings.md
+          - Running code in editor: documentation/godot-js-scripts/code-in-editor.md
+      - Utilities:
+          - REPL: documentation/utilities/repl.md
+          - SourceMaps: documentation/utilities/source-map.md
+          - Statistics: documentation/utilities/statistics.md
+          - Debugger: documentation/utilities/debugger.md
+      - Experimental:
+          - Worker: documentation/experimental/worker.md
+      - Building From Source:
+          - Intro: documentation/building-from-source/index.md
+          - V8: documentation/building-from-source/v8.md
+          - QuickJS: documentation/building-from-source/quick-js.md
+          - JavaScriptCore: documentation/building-from-source/javascript-core.md
+          - Web: documentation/building-from-source/web.md
   - Examples:
       - Load JSON in Singleton: examples/load-json-in-singleton.md
       - Read file local: examples/read-file-local.md
-      - Use GDScript in JS or TS: examples/use-gdscript-in-js-or-ts.md
+      - Use GDScript in JS or TS: examples/use-gdscript-with-godot-js.md
+      - Reuse custom resources: examples/reuse-custom-resources.md
+  - Development:
+      - Dependencies: development/dependencies.md
+      - Compiler Options: development/compiler-options.md
+      - GodotJS Debugging: development/godot-js-debugging.md
+      - Godot Unit Testing: development/godot-unit-testing.md
+  - Misc:
+      - Breaking Changes: misc/breaking-changes.md
+      - Architecture: misc/architecture.md
 
 theme:
   name: material
@@ -33,6 +57,8 @@ theme:
     - navigation.instant.prefetch
     - navigation.path
     - navigation.top
+    - navigation.expand
+    - navigation.footer
     - search.suggest
     - search.highlight
     - content.code.copy
@@ -71,3 +97,8 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
