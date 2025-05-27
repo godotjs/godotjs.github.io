@@ -6,7 +6,8 @@ hide:
 
 # **GodotJS**
 
-**_-- JavaScript and TypeScript language binding for Godot game engine --_**
+**_--  TypeScript/JavaScript Support for Godot 4.x by leveraging the high-performance capabilities of V8 to bring the delightful development experience of TypeScript into Godot.
+--_**
 
 Supports JavaScript engines:
 
@@ -39,11 +40,9 @@ No installation or setup necessary.
 The binaries for download are the complete, usable Godot editor
 and engine with JavaScript/TypeScript language support.
 
-> **NOTE:** The GodotJS-Build workflow is currently run manually, it may not be built from the latest version of GodotJS.
-
 ### Binary downloads
 
-Download the binaries from the [GodotJS-Build](https://github.com/ialex32x/GodotJS-Build/releases).
+Download the binaries from the [Releases](https://github.com/godotjs/GodotJS/releases).
 
 ### Choose your engine
 

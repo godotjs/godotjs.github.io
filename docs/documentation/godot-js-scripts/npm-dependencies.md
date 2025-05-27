@@ -6,6 +6,25 @@ Currently, `GodotJS` doesn't provide sufficient support for using code from npm 
 - How the typescript/javascript project is packaged (archive into a single script file or not)
 - Javascript modular standard variants may be involved
 
-If a npm package just works, there is no guarantee that it does also work after packaging, `GodotJS` tries to export all dependant javascript sources into the targeting package.
+## Workaround as bundle
 
-> **NOTE:** See [read_xlsx.ts](https://github.com/ialex32x/GodotJSExample/blob/main/tests/read_xlsx.ts) about using a npm package.
+Try to bundle npm dependencies to an own file to avoid potential conflicts.
+
+If you use [godot-ts](https://github.com/godotjs/godot-ts) you can create a `*.bundle.ts` file like this:
+
+```ts npm.bundle.ts
+export { default as dayjs } from "dayjs";
+```
+
+```ts example.ts
+import { Label, Node } from "godot";
+import { dayjs } from "./npm.bundle";
+
+export default class Example extends Node {
+  _ready(): void {
+    const label: Label = this.get_node("Label") as Label;
+
+    label.text = dayjs().toString();
+  }
+}
+```

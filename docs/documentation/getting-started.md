@@ -1,11 +1,20 @@
-1. [Download the editor](https://github.com/ialex32x/GodotJS-Build/releases) and start the application
-2. Rename the downloaded file to `godot` and [add Godot to your path](https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html#path)
-3. Open a terminal
-4. Test if you can use Godot via terminal and run:
+1. [Download the `editor`](https://github.com/godotjs/GodotJS/releases) based on your OS and select an JS engine (we recommend `v8` for a start) and unzip it
+2. Rename the downloaded file based on your OS:
+   - Linux: `godot.linuxbsd.editor.x86_64` ➡️ `godot`
+   - MacOS: no rename required
+   - Windows: `godot.windows.editor.x86_64.exe` ➡️ `godot.exe`
+3. [Add Godot to your PATH](https://docs.godotengine.org/en/stable/tutorials/editor/command_line_tutorial.html#path)
+   - Linux: `/usr/local/bin`
+   - MacOS: `echo ~/your-path/Godot.app/Contents/MacOS|sudo tee /etc/paths.d/godot;bash -l;echo $PATH`
+   - Windows: `setx /M path "%path%;C:\your-path\windows-editor-v8"`
+4. Open a terminal
+5. Test if you can use Godot via terminal and run:
 
 ```shell
 godot --version
 ```
+
+> **Note:** The `Godot.app` isn't signed for MacOS you need to [allow to open it](https://support.apple.com/en-us/102445#:~:text=If%20you%20want%20to%20open%20an%20app%20that%20hasn%E2%80%99t%20been%20notarized%20or%20is%20from%20an%20unidentified%20developer).
 
 ## Create a new project
 
@@ -41,7 +50,7 @@ To create new scripts, press select GodotJSScript as language:
 
 ![Select Language](images/tsproj_select_godotjs.png)
 
-Use the ``Node: Node.Ts`` template:
+Use the `Node: Node.Ts` template:
 
 ![Create a Script](images/tsproj_create_script.png)
 
