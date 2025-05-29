@@ -4,15 +4,15 @@ There are several decorators to help you define properties, signals, and other m
 
 ## Signal annotation
 
-You can define signals in your script using the `@signal` annotation:
+You can define signals in your script using the `@ExportSignal` annotation:
 
 ```ts
-import { Node, Signal0, Callable } from "godot";
-import { signal } from "godot.annotations";
+import { Node, Signal } from "godot";
+import { ExportSignal } from "godot.annotations";
 
 export default class MyJSNode extends Node {
-  @signal()
-  declare test!: Signal0;
+  @ExportSignal()
+  test!: Signal<(param1: string) => void>;
 }
 ```
 
@@ -24,9 +24,9 @@ If a GodotJS class is annotated with `tool()`, it'll be instantiated in the edit
 
 ```ts
 import { Node } from "godot";
-import { tool } from "godot.annotations";
+import { Tool } from "godot.annotations";
 
-@tool()
+@Tool()
 export default class MyTool extends Node {
   _ready() {
     // This code will run in the editor
@@ -43,9 +43,9 @@ An icon can be used as node icon in the editor scene hierarchy with the annotati
 
 ```ts
 import { Sprite2D } from "godot";
-import { icon } from "godot.annotations";
+import { Icon } from "godot.annotations";
 
-@icon("res://icon/affiliate.svg")
+@Icon("res://icon/affiliate.svg")
 export default class MySprite extends Sprite2D {}
 ```
 
@@ -57,15 +57,15 @@ In `GodotJS`, class member properties/variables can be exported.
 This means their value gets saved along with the resource
 (such as the scene) they're attached to.
 They will also be available for editing in the property editor.
-Exporting is done by using the `@export_` annotation.
+Exporting is done by using the `@Export` annotation.
 
 ```ts
-import { export_ } from "godot.annotations";
+import { Export } from "godot.annotations";
 
 export default class Shooter extends Sprite2D {
-  // type must be explicitly provided as the first parameter of @export_
+  // type must be explicitly provided as the first parameter of @Export
   // cuz static type is actually a phantom in typescript
-  @export_(Variant.Type.TYPE_FLOAT)
+  @Export(Variant.Type.TYPE_FLOAT)
   speed: number = 0;
 
   // ...
@@ -84,17 +84,17 @@ The retrieval of default value is implemented through `Class Default Object (CDO
 ### Basic Use
 
 ```ts
-@export_(Variant.Type.TYPE_STRING)
+@Export(Variant.Type.TYPE_STRING)
 address: string = "somewhere"; // `:string` can be omitted here
 
-@export_(Variant.Type.TYPE_INT)
+@Export(Variant.Type.TYPE_INT)
 age: number = 0; // `:number` can be omitted here
 ```
 
 If there's no default value, `default value` of the give type will be used (`0` in this case).
 
 ```ts
-@export_(Variant.Type.TYPE_INT)
+@Export(Variant.Type.TYPE_INT)
 age: number;
 ```
 
@@ -105,7 +105,7 @@ Enum value properties can be exported with the built-in support in the property 
 > **NOTE:** So far, only `int` is supported as enum value.
 
 ```ts
-@export_enum(MyColor)
+@ExportEnum(MyColor)
 color: MyColor = MyColor.White;
 ```
 

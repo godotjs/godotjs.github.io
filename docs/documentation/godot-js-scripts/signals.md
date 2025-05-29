@@ -3,32 +3,25 @@
 You can define signals based on the amount of arguments you want to pass:
 
 ```ts
-import { Node, Signal0, Signal1, Signal2, Callable } from "godot";
-import { signal } from "godot.annotations";
+import { Node, Signal } from "godot";
+import { ExportSignal } from "godot.annotations";
 
-export default class MyJSNode extends Node {
-  @signal()
-  declare no_arg!: Signal0;
+export default class MyNode extends Node {
+  @ExportSignal()
+  declare no_arg!: Signal<() => void>;
 
-  @signal()
-  declare one_arg!: Signal1<number>;
+  @ExportSignal()
+  declare one_arg!: Signal<(param1: string) => void>;
 
-  @signal()
-  declare two_args!: Signal2<string, string>;
+  @ExportSignal()
+  declare two_args!: Signal<(param1: number, param2: string) => void>;
 }
 ```
 
-> **NOTE:** You must `declare` signal properties.
-> This creates an "ambient" declaration, which is a way of telling TypeScript
-> that the property exists but not to generate any code to define it.
-> Instead `@signal` automatically generates an accessor on your behalf.
-> If you omit `declare`, the TypeScript compiler creates an "own property"
-> on instances with an `undefined` value, which blocks access to the GodotJS'
-> generated accessor method (which exists on the instance's prototype).
-
 ## Passing Arguments via Signals
 
-When emitting signals, only Godot-native objects (GArray, GDictionary, and primitives) can be passed as valid arguments. Raw TypeScript/JavaScript objects cannot be used directly.
+When emitting signals, only Godot-native objects (GArray, GDictionary, and primitives) can be passed as valid arguments. 
+Raw TypeScript/JavaScript objects cannot be used directly.
 
 Incorrect Example:
 
@@ -46,9 +39,9 @@ data.set("key", "value");
 this.some_signal.emit(data); // ✅ Godot dictionary
 ```
 
-If raw JavaScript objects must be passed, consider converting them into ``GDictionary`` or ``GArray`` before emitting them as arguments.
+If raw JavaScript objects must be passed, consider converting them into `GDictionary` or `GArray` before emitting them as arguments.
 If you use [godot-ts](https://github.com/godotjs/godot-ts) you can use
-the functions ``toGDictionary`` and `fromGDictionary` from ``generated/utils.ts``.
+the functions `toGDictionary` and `fromGDictionary` from `generated/utils.ts`.
 
 ## Connect and disconnect to a signal programmatically
 

@@ -22,7 +22,7 @@ Supports JavaScript engines:
 
 ## Getting started
 
-Read the [getting-started](documentation/getting-started).
+Read the [getting-started](documentation/getting-started.md).
 
 ## Features
 

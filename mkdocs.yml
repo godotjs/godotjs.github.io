@@ -18,6 +18,7 @@ nav:
           - Cyclic Imports: documentation/godot-js-scripts/cyclic-imports.md
           - Bindings: documentation/godot-js-scripts/bindings.md
           - Running code in editor: documentation/godot-js-scripts/code-in-editor.md
+          - Auto-Completion and Codegen: documentation/godot-js-scripts/auto-completion-and-codegen.md
       - Utilities:
           - REPL: documentation/utilities/repl.md
           - SourceMaps: documentation/utilities/source-map.md

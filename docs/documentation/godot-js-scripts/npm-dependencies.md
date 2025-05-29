@@ -22,7 +22,7 @@ import { dayjs } from "./npm.bundle";
 
 export default class Example extends Node {
   _ready(): void {
-    const label: Label = this.get_node("Label") as Label;
+    const label: Label = this.get_node("Label");
 
     label.text = dayjs().toString();
   }

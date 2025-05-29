@@ -7,11 +7,11 @@ This example shows how to create a custom resource and reuse it with different s
 We create a new file `character-attributes.ts` and add this code to it:
 
 ```ts title="character-attributes.ts"
-import { export_ } from "godot.annotations";
+import { Export } from "godot.annotations";
 import { Resource, Variant } from "godot";
 
 export default class CharacterAttributes extends Resource {
-  @export_(Variant.Type.TYPE_INT)
+  @Export(Variant.Type.TYPE_INT)
   health: number = 5;
 }
 ```
@@ -33,14 +33,14 @@ Create a new file `index.ts` and add this code to it:
 
 ```ts title="index.ts"
 import { Node, Variant } from "godot";
-import { export_ } from "godot.annotations";
+import { Export } from "godot.annotations";
 import CharacterAttributes from "./character-attributes";
 
 export default class ResourceExample extends Node {
-  @export_(Variant.Type.TYPE_OBJECT)
+  @Export(Variant.Type.TYPE_OBJECT)
   warriorAttributes: CharacterAttributes | undefined = undefined;
 
-  @export_(Variant.Type.TYPE_OBJECT)
+  @Export(Variant.Type.TYPE_OBJECT)
   mageAttributes: CharacterAttributes | undefined = undefined;
 
   _ready(): void {
