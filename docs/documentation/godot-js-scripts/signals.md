@@ -29,19 +29,13 @@ Incorrect Example:
 this.some_signal.emit({ key: "value" }); // ❌ Raw JS object
 ```
 
-Correct Example:
+You can use `GDictionary.create`/`GArray.create` to convert JS objects to their Godot equivalent data structure.
 
 ```ts
 import { GDictionary } from "godot";
 
-const data = new GDictionary();
-data.set("key", "value");
-this.some_signal.emit(data); // ✅ Godot dictionary
+this.some_signal.emit(GDictionary.create({ key: "value" })); // ✅ Godot dictionary
 ```
-
-If raw JavaScript objects must be passed, consider converting them into `GDictionary` or `GArray` before emitting them as arguments.
-If you use [godot-ts](https://github.com/godotjs/godot-ts) you can use
-the functions `toGDictionary` and `fromGDictionary` from `generated/utils.ts`.
 
 ## Connect and disconnect to a signal programmatically
 
