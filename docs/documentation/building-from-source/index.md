@@ -8,6 +8,37 @@ The following runtimes are available:
 - [`JavaScriptCore`](javascript-core.md) is the built-in JavaScript engine for WebKit and bundled with macOS/iOS.
 - [`Web`](web.md) is only suitable when building for Web. All scripts run on the host browser JS VM rather than an additional interpreter.
 
+## Setup GodotJS in Godot Engine
+
+### 1. Clone the source code of godot:
+````shell
+git clone git@github.com:godotengine/godot.git
+````
+
+or
+
+````shell
+git clone https://github.com/godotengine/godot.git
+````
+
+### 2. Checkout the correct version branch
+
+Look at this [list](https://github.com/godotjs/GodotJS/blob/main/.github/workflows/runner.yml#L36) to see supported Godot versions.
+
+### 3. Clone GodotJS module
+
+Clone this module and put it into ``godot/modules/GodotJS``:
+
+````shell
+git clone git@github.com:godotjs/GodotJS.git godot/modules/GodotJS
+````
+
+or
+
+````shell
+git clone https://github.com/godotjs/GodotJS.git godot/modules/GodotJS
+````
+
 ## Supported Platforms
 
 |                | v8               | quickjs         | quickjs-ng      | Web Builtin JS      | JavaScriptCore  |
