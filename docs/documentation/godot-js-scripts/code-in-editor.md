@@ -4,21 +4,24 @@
 > **NOTE:** Read [Godot Docs](https://docs.godotengine.org/en/stable/tutorials/plugins/running_code_in_the_editor.html#what-is-tool) for more details about `@tool`.
 
 
-If a GodotJS class is annotated with `@Tool()`, it'll be instantiated in the editor. 
+If a GodotJS class is annotated with `@bind.tool()`, it'll be instantiated in the editor. 
 Call `Engine.is_editor_hint()` in the script to check if it's running in the editor.  
 It's also possible to show warnings on a `Node` on `Scene` panel with `_get_configuration_warnings` defined. Here is a simple example:
 
 ```ts
 import { Engine, PackedStringArray, Sprite2D, Variant } from "godot";
-import { Export, Tool } from "godot.annotations";
+import { createClassBinder } from "godot.annotations";
 
-@Tool()
+const bind = createClassBinder();
+
+@bind()
+@bind.tool()
 export default class MyEditorSprite extends Sprite2D {
 
     /**
      * get/set property for `export` (both must be defined)
      */
-    @Export(Variant.Type.TYPE_FLOAT)
+    @bind.export(Variant.Type.TYPE_FLOAT)
     get speed(): number { return this._speed; }
     set speed(value: number) {
         if (this._speed != value) {
@@ -30,8 +33,8 @@ export default class MyEditorSprite extends Sprite2D {
     /**
      * plain field for `export`
      */
-    @Export(Variant.Type.TYPE_INT)
-    unused_int = 0;
+    @bind.export(Variant.Type.TYPE_INT)
+    accessor unused_int = 0;
 
     private _clockwise = false;
     private _speed = 0;
@@ -82,9 +85,12 @@ This is available in Godot by extending `EditorScript` in a script. This provide
 
 ```ts 
 import { EditorScript } from "godot";
-import { Tool } from "godot.annotations";
+import { createClassBinder } from "godot.annotations";
 
-@Tool()
+const bind = createClassBinder();
+
+@bind()
+@bind.tool()
 export default class MyEditorScript1 extends EditorScript {
     _run() {
         console.log("my editor script run");

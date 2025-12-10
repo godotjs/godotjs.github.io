@@ -70,4 +70,4 @@ Check out [decorators](decorators.md) for more information.
 ## Auto-Completion and Codegen
 
 By default, GodotJS wil auto generate some TypeScript files based on you project.
-Check out [auto-completion](auto-completion.md) for more information.
+Check out [auto-completion](auto-completion-and-codegen.md) for more information.
