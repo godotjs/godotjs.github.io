@@ -71,3 +71,10 @@ Check out [decorators](decorators.md) for more information.
 
 By default, GodotJS wil auto generate some TypeScript files based on you project.
 Check out [auto-completion](auto-completion-and-codegen.md) for more information.
+
+## NPM Dependencies
+
+Currently, `GodotJS` doesn't provide full support for using code from npm packages. 
+Because many factors are involved in it, such as:
+
+- Scripts depend on functionalities of node.js which is not supported
