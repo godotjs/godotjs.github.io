@@ -18,19 +18,6 @@ godot --version
 
 ## Create a new project
 
-### Automatically with [godot-ts](https://github.com/godotjs/godot-ts)
-
-1. Run `npx -y @godot-js/godot-ts init` (new project will be crated at your current terminal path)
-2. Follow the prompts
-3. Run `cd <your-project>`
-4. Run `npm i`
-5. Run `npm run dev` - this will enable typescript watch mode and opens the editor
-6. Inside the editor [install preset files](#install-preset-files) via `Project > Tools > GodotJS > Install Preset files`
-7. Click `OK` to confirm a list of files will be generated in the project.
-8. Attach the `example.ts` script to a node and run the project
-
-### Manually
-
 1. Run `godot -p` and create a new project
 2. Inside the editor [install preset files](#install-preset-files) via `Project > Tools > GodotJS > Install Preset files`
 3. Click `OK` to confirm a list of files will be generated in the project.
@@ -58,7 +45,7 @@ Open the project folder in you IDE, you should see full TypeScript support!
 
 ![Type Hint](images/tsproj_type_hint.png)
 
-## Compile TypeScript Sources without [godot-ts](https://github.com/godotjs/godot-ts)
+## Compile TypeScript Sources
 
 Before your scripts runnable in _Godot_, run `tsc` to compile typescript sources into javascript.
 

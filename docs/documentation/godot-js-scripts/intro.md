@@ -64,10 +64,17 @@ export default class MyJSNode extends Node {
 ## Annotations
 
 Annotations are used to define properties, signals, and other metadata for Godot objects.
-They are similar to decorators in TypeScript and can be used to enhance the functionality of your scripts.
-Check out [decorators](decorators.md) for more information.
+They are similar to annotations in TypeScript and can be used to enhance the functionality of your scripts.
+Check out [annotations](annotations.md) for more information.
 
 ## Auto-Completion and Codegen
 
 By default, GodotJS wil auto generate some TypeScript files based on you project.
-Check out [auto-completion](auto-completion.md) for more information.
+Check out [auto-completion](auto-completion-and-codegen.md) for more information.
+
+## NPM Dependencies
+
+Currently, `GodotJS` doesn't provide full support for using code from npm packages. 
+Because many factors are involved in it, such as:
+
+- Scripts depend on functionalities of node.js which is not supported

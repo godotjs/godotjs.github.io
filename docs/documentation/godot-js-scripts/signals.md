@@ -4,17 +4,20 @@ You can define signals based on the amount of arguments you want to pass:
 
 ```ts
 import { Node, Signal } from "godot";
-import { ExportSignal } from "godot.annotations";
+import { createClassBinder } from "godot.annotations";
 
+const bind = createClassBinder();
+
+@bind()
 export default class MyNode extends Node {
-  @ExportSignal()
-  declare no_arg!: Signal<() => void>;
+  @bind.signal()
+  accessor no_arg!: Signal<() => void>;
 
-  @ExportSignal()
-  declare one_arg!: Signal<(param1: string) => void>;
+  @bind.signal()
+  accessor one_arg!: Signal<(param1: string) => void>;
 
-  @ExportSignal()
-  declare two_args!: Signal<(param1: number, param2: string) => void>;
+  @bind.signal()
+  accessor two_args!: Signal<(param1: number, param2: string) => void>;
 }
 ```
 
@@ -75,12 +78,15 @@ export default class MyClass extends Node {
 A `Signal` can be awaitable in javascript by calling `as_promise()`:
 
 ```ts
-import { Node, Signal1 } from "godot";
-import { signal } from "godot.annotations";
+import { Node, Signal } from "godot";
+import { createClassBinder } from "godot.annotations";
 
+const bind = createClassBinder();
+
+@bind()
 class ExampleClass extends Node {
-  @signal()
-  declare test_signal!: Signal1<number>;
+  @bind.signal()
+  accessor test_signal!: Signal<(value: number) => void>;
 
   _ready() {
     test();

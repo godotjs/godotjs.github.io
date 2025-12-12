@@ -7,12 +7,15 @@ This example shows how to create a custom resource and reuse it with different s
 We create a new file `character-attributes.ts` and add this code to it:
 
 ```ts title="character-attributes.ts"
-import { Export } from "godot.annotations";
+import { createClassBinder } from "godot.annotations";
 import { Resource, Variant } from "godot";
 
+const bind = createClassBinder();
+
+@bind()
 export default class CharacterAttributes extends Resource {
-  @Export(Variant.Type.TYPE_INT)
-  health: number = 5;
+  @bind.export(Variant.Type.TYPE_INT)
+  accessor health: number = 5;
 }
 ```
 
@@ -33,15 +36,18 @@ Create a new file `index.ts` and add this code to it:
 
 ```ts title="index.ts"
 import { Node, Variant } from "godot";
-import { Export } from "godot.annotations";
+import { createClassBinder } from "godot.annotations";
 import CharacterAttributes from "./character-attributes";
 
-export default class ResourceExample extends Node {
-  @Export(Variant.Type.TYPE_OBJECT)
-  warriorAttributes: CharacterAttributes | undefined = undefined;
+const bind = createClassBinder();
 
-  @Export(Variant.Type.TYPE_OBJECT)
-  mageAttributes: CharacterAttributes | undefined = undefined;
+@bind()
+export default class ResourceExample extends Node {
+  @bind.export(Variant.Type.TYPE_OBJECT)
+  accessor warriorAttributes: CharacterAttributes | undefined = undefined;
+
+  @bind.export(Variant.Type.TYPE_OBJECT)
+  accessor mageAttributes: CharacterAttributes | undefined = undefined;
 
   _ready(): void {
     console.log("warrior health", this.warriorAttributes?.health);

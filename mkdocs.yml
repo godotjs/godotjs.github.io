@@ -12,9 +12,8 @@ nav:
       - Use External Editor: documentation/use-external-editor.md
       - Scripting:
           - Intro: documentation/godot-js-scripts/intro.md
-          - Decorators: documentation/godot-js-scripts/decorators.md
+          - Annotations: documentation/godot-js-scripts/annotations.md
           - Signals: documentation/godot-js-scripts/signals.md
-          - NPM Dependencies: documentation/godot-js-scripts/npm-dependencies.md
           - Cyclic Imports: documentation/godot-js-scripts/cyclic-imports.md
           - Bindings: documentation/godot-js-scripts/bindings.md
           - Running code in editor: documentation/godot-js-scripts/code-in-editor.md
