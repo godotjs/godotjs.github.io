@@ -1,8 +1,8 @@
-# Decorators
+# Annotations
 
-There are several decorators to help you define properties, signals, and other metadata for Godot objects.
+There are several annotations to help you define properties, signals, and other metadata for Godot objects.
 
-All decorators are accessed through the `createClassBinder` function:
+All annotations are accessed through the `createClassBinder` function:
 
 ```ts
 import { createClassBinder } from "godot.annotations";
@@ -131,3 +131,39 @@ accessor color: MyColor = MyColor.White;
 The value can be easily chosen from a dropdown list in the editor.
 
 ![enum_prop](images/export_enum_inspector.png)
+
+## Documentation comments
+
+You can use [documentation comments](https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_documentation_comments.html)
+with custom GodotJS annotations:
+
+- ``@bind.help("...")``
+- ``@bind.experimental("...")``
+- ``@bind.deprecated("...")``
+
+```ts
+import { Variant } from "godot";
+import { createClassBinder } from "godot.annotations";
+
+const bind = createClassBinder();
+
+@bind()
+@bind.help("This will be shown in the editor when creating a new node of this type.")
+export default class TestNode extends Node {
+
+    @bind.experimental("Alternative to [method TestNode.doNewStuff].")
+    doNewStuff(){
+        // ...
+    }
+    
+    doStuff(){
+        // ...
+    }
+
+    @bind.deprecated("Use [method TestNode.doNewStuff] instead.")
+    doOldStuff(){
+        // ...
+    }
+    
+}
+```
