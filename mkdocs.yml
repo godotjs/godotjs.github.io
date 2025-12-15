@@ -5,6 +5,9 @@ repo_url: https://github.com/godotjs/GodotJS
 site_description: JS/TS language binding for Godot
 extra_css:
   - css/extra.css
+  - css/release-selector.css
+extra_javascript:
+  - javascripts/release-selector.js
 nav:
   - Home: index.md
   - Docs:

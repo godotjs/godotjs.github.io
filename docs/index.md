@@ -9,12 +9,6 @@ hide:
 **_--  TypeScript/JavaScript Support for Godot 4.x by leveraging the high-performance capabilities of V8 to bring the delightful development experience of TypeScript into Godot.
 --_**
 
-Supports JavaScript engines:
-
-- V8
-- QuickJS
-- JavaScriptCore
-- Directly run scripts on the host browser JS VM when porting to web.
 
 ![typescript_intellisence](images/typescript_intellisence.png)
 
@@ -34,29 +28,6 @@ Read the [getting-started](documentation/getting-started.md).
 - [Worker threads](documentation/experimental/worker.md) (limited support) (**experimental**)
 - Asynchronously loaded modules (limited support) (_temporarily only available in v8.impl, quickjs.impl_)
 
-## Getting the engine
-
-No installation or setup necessary.
-The binaries for download are the complete, usable Godot editor
-and engine with JavaScript/TypeScript language support.
-
-### Binary downloads
-
-Download the binaries from the [Releases](https://github.com/godotjs/GodotJS/releases).
-
-### Choose your engine
-
-Before initiating, make sure to select the JavaScript runtime you prefer between `v8`, `QuickJS` and `Web` (See [Supported Platforms](#supported-platforms)):
-
-- `v8` is proven to be one of the most powerful and high-performance JavaScript runtimes.
-- `QuickJS` is a remarkable and lightweight option.
-- `JavaScriptCore` is the built-in JavaScript engine for WebKit and bundled with macOS/iOS.
-- `Web` is only suitable when building for Web. All scripts run on the host browser JS VM rather than an additional interpreter.
-
-### Building from source
-
-In some cases you want or need to build the engine from source.
-Read the [Building from Source](documentation/building-from-source/) documentation in this case.
 
 ## Examples
 
