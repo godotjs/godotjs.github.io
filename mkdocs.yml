@@ -13,6 +13,7 @@ nav:
   - Docs:
       - Getting Started: documentation/getting-started.md
       - Use External Editor: documentation/use-external-editor.md
+      - Export Project: documentation/export-project.md
       - Scripting:
           - Intro: documentation/godot-js-scripts/intro.md
           - Decorators: documentation/godot-js-scripts/decorators.md
