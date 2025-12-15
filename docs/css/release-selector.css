@@ -57,12 +57,21 @@
 
 .release-group {
   margin-bottom: 1.5rem;
-  border: 1px solid var(--md-default-fg-color--lightest);
+  border: 1px solid var(--md-default-fg-color--lightest) !important;
   border-radius: 6px;
   overflow: hidden;
+  padding: 0 !important;
 }
 
-.release-group h4 {
+.release-group > summary:before {
+  content: none;
+}
+.release-group > summary:after {
+  left: 0.725rem !important;
+  top: 1.125rem !important;
+}
+
+.release-group summary {
   margin: 0;
   padding: 0.75rem 1rem;
   background: var(--md-default-fg-color--lightest);
@@ -71,6 +80,12 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.release-group summary:hover {
+  background: var(--md-primary-fg-color--light);
 }
 
 .prerelease-badge {
@@ -122,7 +137,6 @@
 }
 
 .download-details {
-  margin-left: auto;
   font-size: 0.85rem;
   opacity: 0.7;
 }
@@ -139,27 +153,21 @@
   .selector-row {
     flex-direction: column;
   }
-  
+
   .selector-group {
     min-width: unset;
   }
-  
-  .release-group h4 {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
-  }
-  
+
   .release-date {
     margin-left: 0;
   }
-  
+
   .download-link {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .download-details {
     margin-left: 0;
   }

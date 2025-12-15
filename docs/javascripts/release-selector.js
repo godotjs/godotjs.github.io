@@ -10,20 +10,23 @@ class ReleaseSelector {
       macos: "macOS",
       android: "Android",
       ios: "iOS",
-      "web-nothreads": "Web (No Threads)",
-      web: "Web",
+      "web-no": "Web (No Threads)",
+      "web-yes": "Web (With Threads)",
     };
 
     this.engines = {
       v8: "V8",
       "qjs-ng": "QuickJS NG",
+      browser: "Browser",
     };
 
     this.targets = {
       editor: "Editor",
-      "template-release": "Release Template",
-      "template-debug": "Debug Template",
+      template_release: "Release Template",
+      template_debug: "Debug Template",
     };
+
+    this.versions = ["4.4", "4.5"];
   }
 
   async init() {
@@ -58,13 +61,17 @@ class ReleaseSelector {
         const target = Object.keys(this.targets).find((key) =>
           asset.name.includes(key),
         );
+        const godotVersion = this.versions.find((key) =>
+          asset.name.includes(key),
+        );
 
         this.assets.push({
           name: asset.name,
           downloadUrl: asset.browser_download_url,
-          os: os,
-          target: target,
-          jsEngine: jsEngine,
+          os,
+          target,
+          jsEngine,
+          godotVersion,
           releaseTag: release.tag_name,
           releaseDate: release.published_at,
           isPrerelease: release.prerelease,
@@ -93,6 +100,7 @@ class ReleaseSelector {
     const osOptions = this.getUniqueValues("os");
     const targetOptions = this.getUniqueValues("target");
     const jsEngineOptions = this.getUniqueValues("jsEngine");
+    const versionOptions = this.getUniqueValues("godotVersion");
 
     container.innerHTML = `
       <div class="release-selector-container">
@@ -101,24 +109,55 @@ class ReleaseSelector {
           <div class="selector-group">
             <label for="os-select">Operating System:</label>
             <select id="os-select">
-              <option value="">Select OS</option>
-              ${osOptions.map((os) => `<option value="${os}">${this.formatOSName(os)}</option>`).join("")}
+              <option value="">All OS</option>
+              ${osOptions
+                .filter((os) => os)
+                .map(
+                  (os) =>
+                    `<option value="${os}">${this.formatOSName(os)}</option>`,
+                )
+                .join("")}
             </select>
           </div>
           
           <div class="selector-group">
             <label for="target-select">Target:</label>
             <select id="target-select">
-              <option value="">Select Target</option>
-              ${targetOptions.map((target) => `<option value="${target}">${this.formatTargetName(target)}</option>`).join("")}
+              <option value="">All Targets</option>
+              ${targetOptions
+                .filter((target) => target)
+                .map(
+                  (target) =>
+                    `<option value="${target}">${this.formatTargetName(target)}</option>`,
+                )
+                .join("")}
             </select>
           </div>
           
           <div class="selector-group">
             <label for="engine-select">JS Engine:</label>
             <select id="engine-select">
-              <option value="">Select Engine</option>
-              ${jsEngineOptions.map((engine) => `<option value="${engine}">${this.formatEngineName(engine)}</option>`).join("")}
+              <option value="">All Engines</option>
+              ${jsEngineOptions
+                .filter((engine) => engine)
+                .map(
+                  (engine) =>
+                    `<option value="${engine}">${this.formatEngineName(engine)}</option>`,
+                )
+                .join("")}
+            </select>
+          </div>
+          
+          <div class="selector-group">
+            <label for="version-select">Godot Version:</label>
+            <select id="version-select">
+              <option value="">All Versions</option>
+              ${versionOptions
+                .filter((version) => version)
+                .map(
+                  (version) => `<option value="${version}">${version}</option>`,
+                )
+                .join("")}
             </select>
           </div>
         </div>
@@ -146,8 +185,7 @@ class ReleaseSelector {
 
   formatTargetName(target) {
     return (
-      this.targets[target] ||
-      target.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
+      this.targets[target] || this.targets[target.replace("-", "_")] || target
     );
   }
 
@@ -155,26 +193,44 @@ class ReleaseSelector {
     const osSelect = document.getElementById("os-select");
     const targetSelect = document.getElementById("target-select");
     const engineSelect = document.getElementById("engine-select");
+    const versionSelect = document.getElementById("version-select");
     const prereleaseCheckbox = document.getElementById("include-prerelease");
 
     if (osSelect) {
       osSelect.addEventListener("change", () => {
         this.updateTargetOptions();
+        this.updateEngineOptions();
+        this.updateVersionOptions();
         this.updateResults();
       });
     }
 
-    [targetSelect, engineSelect, prereleaseCheckbox].forEach(
-      (element) => {
-        if (element) {
-          element.addEventListener("change", () => this.updateResults());
-        }
-      },
-    );
+    if (targetSelect) {
+      targetSelect.addEventListener("change", () => {
+        this.updateEngineOptions();
+        this.updateVersionOptions();
+        this.updateResults();
+      });
+    }
+
+    if (engineSelect) {
+      engineSelect.addEventListener("change", () => {
+        this.updateVersionOptions();
+        this.updateResults();
+      });
+    }
+
+    [versionSelect, prereleaseCheckbox].forEach((element) => {
+      if (element) {
+        element.addEventListener("change", () => this.updateResults());
+      }
+    });
 
     // Set default values
     if (osSelect) osSelect.value = this.detectOS();
     this.updateTargetOptions();
+    this.updateEngineOptions();
+    this.updateVersionOptions();
     if (targetSelect) targetSelect.value = "editor";
     if (engineSelect) engineSelect.value = "v8";
 
@@ -192,22 +248,91 @@ class ReleaseSelector {
   updateTargetOptions() {
     const osSelect = document.getElementById("os-select");
     const targetSelect = document.getElementById("target-select");
-    
+
     if (!osSelect || !targetSelect) return;
-    
+
     const selectedOS = osSelect.value;
     const currentTarget = targetSelect.value;
-    
+
     const availableTargets = this.getUniqueValues("target", { os: selectedOS });
-    
+
     targetSelect.innerHTML = `
-      <option value="">Select Target</option>
-      ${availableTargets.map((target) => `<option value="${target}">${this.formatTargetName(target)}</option>`).join("")}
+      <option value="">All Targets</option>
+      ${availableTargets
+        .filter((target) => target)
+        .map(
+          (target) =>
+            `<option value="${target}">${this.formatTargetName(target)}</option>`,
+        )
+        .join("")}
     `;
-    
+
     // Restore selection if still available
     if (availableTargets.includes(currentTarget)) {
       targetSelect.value = currentTarget;
+    }
+  }
+
+  updateEngineOptions() {
+    const osSelect = document.getElementById("os-select");
+    const targetSelect = document.getElementById("target-select");
+    const engineSelect = document.getElementById("engine-select");
+
+    if (!engineSelect) return;
+
+    const filters = {
+      os: osSelect?.value || "",
+      target: targetSelect?.value || "",
+    };
+    const currentEngine = engineSelect.value;
+
+    const availableEngines = this.getUniqueValues("jsEngine", filters);
+
+    engineSelect.innerHTML = `
+      <option value="">All Engines</option>
+      ${availableEngines
+        .filter((engine) => engine)
+        .map(
+          (engine) =>
+            `<option value="${engine}">${this.formatEngineName(engine)}</option>`,
+        )
+        .join("")}
+    `;
+
+    // Restore selection if still available
+    if (availableEngines.includes(currentEngine)) {
+      engineSelect.value = currentEngine;
+    }
+  }
+
+  updateVersionOptions() {
+    const osSelect = document.getElementById("os-select");
+    const targetSelect = document.getElementById("target-select");
+    const engineSelect = document.getElementById("engine-select");
+    const versionSelect = document.getElementById("version-select");
+
+    if (!versionSelect) return;
+
+    const filters = {
+      os: osSelect?.value || "",
+      target: targetSelect?.value || "",
+      jsEngine: engineSelect?.value || "",
+    };
+    const currentVersion = versionSelect.value;
+
+    const availableVersions = this.getUniqueValues("godotVersion", filters);
+
+    versionSelect.innerHTML = `
+      <option value="">All Versions</option>
+      ${availableVersions
+        .filter((version) => version)
+        .map((version) => `<option value="${version}">${version}</option>`)
+        .join("")}
+    `;
+
+    // Restore selection if still available
+    if (availableVersions.includes(currentVersion)) {
+      versionSelect.value = currentVersion;
     }
   }
 
@@ -216,6 +341,7 @@ class ReleaseSelector {
       os: document.getElementById("os-select")?.value || "",
       target: document.getElementById("target-select")?.value || "",
       jsEngine: document.getElementById("engine-select")?.value || "",
+      godotVersion: document.getElementById("version-select")?.value || "",
     };
 
     const includePrerelease =
@@ -256,31 +382,30 @@ class ReleaseSelector {
     }
 
     const html = sortedReleases
-      .map((releaseTag) => {
+      .map((releaseTag, index) => {
         const assets = groupedAssets[releaseTag];
         const release = this.releases.find((r) => r.tag_name === releaseTag);
 
         return `
-        <div class="release-group">
-          <h4>
+        <details class="release-group" ${index === 0 ? "open" : ""}>
+          <summary>
             ${releaseTag} 
             ${release.prerelease ? '<span class="prerelease-badge">Pre-release</span>' : ""}
             <span class="release-date">${new Date(release.published_at).toLocaleDateString()}</span>
-          </h4>
+          </summary>
           <div class="download-links">
             ${assets
               .map(
                 (asset) => `
               <a href="${asset.downloadUrl}" class="download-link" download>
                 <span class="download-icon">⬇️</span>
-                ${asset.name}
-                <span class="download-details">${this.formatOSName(asset.os)} • ${this.formatTargetName(asset.target)} • ${asset.jsEngine.toUpperCase()}</span>
+                <span class="download-details">${this.formatOSName(asset.os)} • ${this.formatTargetName(asset.target)} • ${this.formatEngineName(asset.jsEngine)} • ${asset.godotVersion ?? "Unknown"}</span>
               </a>
             `,
               )
               .join("")}
           </div>
-        </div>
+        </details>
       `;
       })
       .join("");
