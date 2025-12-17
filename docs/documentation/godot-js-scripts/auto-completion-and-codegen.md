@@ -8,14 +8,50 @@ Example given `ResourceLoader.load()` will autocomplete like this:
 
 ![Resource Loader load auto complete](images/codegen/resource-loader.png)
 
+## SceneNodes
+
+For every scene node, a generated `*.nodes.gen.d.ts` file will be created in the `/gen/godot` subdirectory.
+
+Example given a `Main.tscn` file with a `Button` and `Label` child node will look like this:
+
+```ts
+declare module "godot" {
+  interface SceneNodes {
+    "scenes/Main.tscn": {
+      Button: Button<{}>;
+      Label: Label<{}>;
+    };
+  }
+}
+```
+
+If you want to use this scene node inside you script you can do it like this:
+
+```ts
+// src/scenes/main.ts
+import { Label, Node, SceneNodes } from "godot";
+
+export default class Main extends Node<SceneNodes["scenes/Main.tscn"]> {
+  label: Label | undefined;
+
+  _ready(): void {
+    this.label = this.get_node("Label");
+  }
+}
+```
+
+With this, `this.label` will be correctly typed as `Label`, no need for `as Label` or `<Label>` conversion.
+
 ## .gen.d.ts files
 
-Similarly to scenes, each resource has a generated `.gen.d.ts file` in the `/generated/typings/` subdirectory.
+Similarly to scenes, each resource has a generated `.gen.d.ts file` in the `/gen/godot` subdirectory.
 
 For example, a `hmm.tres` file for a custom Resource whose script looks like:
 
 ```ts
 export default class LineCardLayout extends CardLayout {
+    // ...
+}
 ```
 
 will have the following `hmm.tres.gen.d.ts` generated:
