@@ -10,8 +10,10 @@ class ReleaseSelector {
       macos: "macOS",
       android: "Android",
       ios: "iOS",
-      "web-no": "Web (No Threads)",
-      "web-yes": "Web (With Threads)",
+      "web-nothreads": "Web (No Threads, No extension support)",
+      "web-dlink-nothreads": "Web (No Threads, With extension support)",
+      "web-dlink": "Web (With Threads, With extension support)",
+      web: "Web (With Threads, No extension support)",
     };
 
     this.engines = {
@@ -414,7 +416,11 @@ class ReleaseSelector {
   }
 }
 
-// Initialize when DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
+// Initialize when DOM is loaded or immediately if already loaded
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    new ReleaseSelector();
+  });
+} else {
   new ReleaseSelector();
-});
+}
